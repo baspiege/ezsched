@@ -1,0 +1,72 @@
+NEXT
+   
+- CSRF (add token to each form)
+- hide view options with button on sched page?
+
+- color for roles/shifts
+    add to model, to add, update role pages
+    on schedule, add color
+    when displaying shifts
+    
+- add colored border to shifts ?
+.drag {background-color:#ffffff; padding:0; margin:1px 0; border:5px solid #0000ff; position:relative; cursor:move;}
+
+<%-- // Good colors: yellow FFFF99, light green CCFF99 or CCFFCC, light orange ffcc99, light blue CCFFFF, purple? CCCCFF  --%>
+<%-- // or use primary, with text changing... ff0000, 00ff00, 0000ff, ff00ff, ffff00, 00ffff  --%>
+    
+HIGH
+-
+
+Next Version
+- color for shifts or roles
+- store image upload
+- reports of hours scheduled to work
+
+MED
+- multiple select user - getParameterValues, HTML: multiple="multiple" size="1"
+- test - store deletes switch request 
+- for switch - if not 2 shifts, don't show process    
+
+LOW
+- daily sched which is ordered by time, start shift
+- trim down size of sched page
+- remove invalid characters when redisplay
+- for user, add option to only see shifts for themselves (admin controlled)
+- add cancel to edit shift
+- if create entry in past, give message
+- add role name to edit message when shift already exists and to success message
+- user delete, when showing shifts, only from current time forward?
+- add info about time off to role? For example, if all users call update shifts of the role Time Off, set this to Yes.
+- if default role or shift deleted, default to no role on user shift or user edit (issue anymore)
+- when setting current user, get users from memcache and spin through that list? no, won't scale if lots of users.
+- cache stores when doing store get all.
+- check if more than 24hrs since last accessed store from cache and update datastore
+- spanish - test edit messages, request fields
+- usershiftdelete using list so user check is not done everytime
+- shifts - table. sort columns.  each column has hidden sort value.  or sort on server?
+- when selecting row or col, if deselect one of the items, remove checkbox from select row/col.  but then when clicked again, would remove all.  so confusing.
+    - maybe checkbox is S button.  when clicked selects.  then changes to U.
+- drag and drop - security tests on server.
+    - indicator when posting.  spinning cursor?
+    - xmlhttprequest?  or move into cell.  but then have to sort...
+    - if not xmlhttprequest, scroll back to position if no edits?
+- if selected spanish, pass through login and logoff.
+    
+To check at end:
+- only get from request parameter from requestutils methods.
+- from data service, only get from attribute in request.
+- remove all system.out.println's
+- clean up code, format?
+- review all TODO's
+- review detachable
+- html size
+- reduce empty lines, blank text.
+- set all stringbuffers with size
+- security 
+    - white list fields.
+    - verify access to data
+    - https
+- verify all data from data store is escaped on display
+- case insensitive sort
+- size of text boxes
+- add title attribute to tables (td, tr where needed), input fields

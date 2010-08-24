@@ -124,9 +124,9 @@ function OnMouseMove(e) {
 
 function OnMouseUp(e)
 {
-	if (_dragElement != null)
-	{
-		_dragElement.style.zIndex = _oldZIndex;
+    if (_dragElement != null)
+    {
+        _dragElement.style.zIndex = _oldZIndex;
 
         // Set event for IE
         if (e == null){
@@ -174,7 +174,7 @@ function OnMouseUp(e)
             }
         }
 
-		// Revert back.
+        // Revert back.
         if (!moving)
         {
             _dragElement.style.position = "static";
@@ -182,12 +182,12 @@ function OnMouseUp(e)
             _dragElement.style.top = 0; // Put back to orig?
         }
 
-		// Reset events until next onmousedown
-		document.onmousemove = null;
-		document.onselectstart = null;
-		_dragElement.ondragstart = null;
-		_dragElement = null;
-	}
+        // Reset events until next onmousedown
+        document.onmousemove = null;
+        document.onselectstart = null;
+        _dragElement.ondragstart = null;
+        _dragElement = null;
+    }
 }
 
 function scrollX() {
@@ -257,11 +257,11 @@ function saveSchedPos() {
 }
 
 function createCookie(name,value,days) {
-	if (days) {
-		var date = new Date();
-		date.setTime(date.getTime()+(days*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-	}
-	else var expires = "";
-	document.cookie = name+"="+value+expires+"; path=/";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
 }

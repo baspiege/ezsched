@@ -2,7 +2,7 @@ package sched.utils;
 
 /**
  * HTML utilities.
- * 
+ *
  * @author Brian Spiegel
  */
 public class HtmlUtils

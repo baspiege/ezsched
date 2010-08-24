@@ -1,0 +1,12 @@
+a:link {color:#0000ff;}
+a:visited {color:#0000ff;}
+h1 {font-size: medium;}
+th {background-color: #f0f0f0;}
+.edits {color:#ff0000; font-weight:bold;}
+fieldset.action {padding:5px;}
+table.sched {width:100%; text-align: center;}
+table.sched a {color:#000000;}
+a.add:link {text-decoration:none; color:#909090; font-size:small;}
+a.add:visited {text-decoration:none; color:#909090; font-size:small;}
+.drag {background-color:#ffff00; padding:0; margin:1px 0; border: 1px solid #000000; position:relative; cursor:move;}
+.si {cursor: pointer;}

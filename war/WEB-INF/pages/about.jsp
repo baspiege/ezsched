@@ -54,14 +54,14 @@ ul {margin-top:0; margin-bottom:0;}
 <p><%= bundle.getString("aboutSitePara1")%></p>
 <%-- <p> bundle.getString("aboutSitePara2") </p> --%>
 
-<h1 style="margin-bottom:0;"> <%= bundle.getString("benefitsHeading")%> </h1>
+<h2 style="margin-bottom:0;"> <%= bundle.getString("benefitsHeading")%> </h2>
 <ul>
 <li> <%= bundle.getString("benefitsBullet1")%> </li>
 <li> <%= bundle.getString("benefitsBullet2")%> </li>
 <li> <%= bundle.getString("benefitsBullet3")%> </li>
 </ul>
 
-<h1 style="margin-bottom:0;"> <%= bundle.getString("securityLabel")%> </h1>
+<h2 style="margin-bottom:0;"> <%= bundle.getString("securityLabel")%> </h2>
 <p style="margin-top:0;"><%= bundle.getString("securityPara1")%></p>
 
 <table border="1">
@@ -83,7 +83,7 @@ ul {margin-top:0; margin-bottom:0;}
 </td></tr>
 </table>
 
-<h1 style="margin-bottom:0;"> <%= bundle.getString("deletionPolicyHeading")%> </h1>
+<h2 style="margin-bottom:0;"> <%= bundle.getString("deletionPolicyHeading")%> </h2>
 <ul>
 <li> <%= bundle.getString("deletionPolicyBullet1")%> </li>
 <li> <%= bundle.getString("deletionPolicyBullet2")%> </li>

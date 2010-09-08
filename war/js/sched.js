@@ -162,8 +162,6 @@ function OnMouseUp(e)
                             createInput(moveForm, "dateMove", dateShift);
                             createInput(moveForm, "userIdMove", userId);
                             createInput(moveForm, "shiftId", shiftId);
-                            createInput(moveForm, "scrollX", scrollX());
-                            createInput(moveForm, "scrollY", scrollY());                            
                             saveSchedPos();
                             moveForm.submit();
 

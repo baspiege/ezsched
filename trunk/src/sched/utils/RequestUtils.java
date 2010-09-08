@@ -42,6 +42,7 @@ public class RequestUtils
     private static Pattern mAlphaPattern=Pattern.compile("[a-zA-Z_0-9\\.\\&\\'\\-\\@\\!\\#\\$\\%\\*\\+\\/\\=\\?\\^\\(\\)\\{\\}\\|\\`\\\\,\\\" \\u00c0-\\u00ff]*");
     private static Pattern mAmPmPattern=Pattern.compile("(AM)|(PM)");
     private static Pattern mBooleanPattern=Pattern.compile("(true)|(false)");
+    private static Pattern mColorPattern=Pattern.compile("[0-9a-fA-F]{6}");
     private static Pattern mDatePattern=Pattern.compile("(\\d)*(\\-)(\\d)*(\\-)(\\d)*");
     private static Pattern mLocalePattern=Pattern.compile("(en)|(es)");
     private static Pattern mNumbersPattern=Pattern.compile("(-)?(\\d)*");
@@ -179,6 +180,41 @@ public class RequestUtils
         aRequest.setAttribute(aFieldToCheck,new Boolean(retValue));
 
         return retValue;
+    }
+    
+    /**
+    * Get the color input and store into the request if there are no edits.
+    *
+    * @param aRequest Servlet Request to get input from
+    * @param aFieldToCheck Field to check
+    * @param aDescription Description of field for edit message
+    * @param aRequired Indicates if required
+
+    * @return the field if no edits
+    */
+    public static String getColorInput(HttpServletRequest aRequest, String aFieldToCheck, String aDescription, boolean aRequired)
+    {
+        String value=aRequest.getParameter(aFieldToCheck);
+        if (isFieldEmpty(aRequest, value, aFieldToCheck, aDescription, aRequired))
+        {
+            // Do nothing
+            // TODO Keep?
+            aRequest.setAttribute(aFieldToCheck,value);
+        }
+        else if (!mColorPattern.matcher(value).matches())
+        {
+            value=null;
+
+            ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(aRequest));
+            String editMessage=aDescription + ": " + bundle.getString("colorFieldValidCharsEdit");
+            addEdit(aRequest,editMessage);
+        }
+        else
+        {
+            aRequest.setAttribute(aFieldToCheck,value);
+        }
+
+        return value;
     }
 
     /**

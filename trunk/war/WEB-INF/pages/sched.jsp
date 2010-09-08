@@ -610,8 +610,17 @@
 
                         if (hasCurrentShift)
                         {
-                            out.write("<div class=\"drag\">");
+                            out.write("<div class=\"drag\"");
                         
+                            ShiftTemplate shiftTemplate=(ShiftTemplate)shiftTemplates.get(new Long(currShiftTemplateId));
+                            
+                            // Get shift template color
+                            if (shiftTemplate!=null && shiftTemplate.getColor()!=null)
+                            {
+                                out.write(" style=\"border-color:#" + HtmlUtils.escapeChars(shiftTemplate.getColor()) + ";\"");
+                            }
+                            out.write(">");
+                            
                             Role role=(Role)roles.get(new Long(currRoleId));
 
                             // Check if checkbox shows
@@ -653,7 +662,6 @@
                             }
 
                             // Get shift template description
-                            ShiftTemplate shiftTemplate=(ShiftTemplate)shiftTemplates.get(new Long(currShiftTemplateId));
                             if (shiftTemplate!=null)
                             {
                                 //out.write("<div class=\"someclass\">");                            

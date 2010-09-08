@@ -18,6 +18,10 @@ public class HtmlUtils
      */
     public static String escapeChars(String aInput)
     {
+        if (aInput==null)
+        {
+            return "";
+        }
 
         int inputLength = aInput.length();
 

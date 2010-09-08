@@ -93,6 +93,9 @@ public class ShiftTemplateAddUpdate
         {
             RequestUtils.addEditUsingKey(aRequest,EditMessages.START_TIME_MUST_BE_LESS_THAN_24_HOURS);
         }
+        
+        // Color
+        String color=(String)aRequest.getAttribute("color");
 
         PersistenceManager pm=null;
         try
@@ -121,6 +124,7 @@ public class ShiftTemplateAddUpdate
                     shiftTemplateEditing.setDesc(desc);
                     shiftTemplateEditing.setStartTime(startTimeMin);
                     shiftTemplateEditing.setDuration(durationMin);
+                    shiftTemplateEditing.setColor(color);
 
                     // Clear request and cache.
                     RequestUtils.setShiftTemplates(aRequest,null);
@@ -140,6 +144,7 @@ public class ShiftTemplateAddUpdate
                 {
                     // Create shift template.
                     ShiftTemplate shiftTemplate=new ShiftTemplate(storeId, startTimeMin, durationMin, desc);
+                    shiftTemplate.setColor(color);
 
                     // Save shift template.
                     pm.makePersistent(shiftTemplate);

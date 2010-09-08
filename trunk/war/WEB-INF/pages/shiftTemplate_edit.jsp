@@ -12,6 +12,7 @@
 <%@ page import="sched.utils.SessionUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));           
+    ResourceBundle colorBundle = ResourceBundle.getBundle("Color", SessionUtils.getLocale(request));
 
     // If cancel, forward right away.
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
@@ -76,6 +77,7 @@
 
     // Set fields
     String desc="";
+    String color="000000";
     Long startHour=null;
     Long startMinute=null;
     String startAmPm="";
@@ -99,6 +101,8 @@
 
         // Set fields
         desc=shiftTemplate.getDesc();
+        color=shiftTemplate.getColor();
+        request.setAttribute("color",color);
             
         // Get time and calculate start hour and minute.
         int shiftTemplateStartTime=shiftTemplate.getStartTime();		
@@ -156,6 +160,7 @@
             if (action.equals(bundle.getString("updateLabel")))
             {
                 // Required
+                color=RequestUtils.getColorInput(request,"color",bundle.getString("colorLabel"),true);
                 desc=RequestUtils.getAlphaInput(request,"desc",bundle.getString("nameLabel"),true);				
                 startHour=RequestUtils.getNumericInput(request,"startHour",bundle.getString("startHourLabel"),true,0,13);
                 startMinute=RequestUtils.getNumericInput(request,"startMinute",bundle.getString("startMinuteLabel"),true,-1,60);
@@ -217,6 +222,11 @@
         <tr>
           <td><%=bundle.getString("defaultDurationLabel")%></td>
           <td><% request.setAttribute("shiftDatePrefix","duration"); %><jsp:include page="/WEB-INF/pages/components/durationSelect.jsp"/></td>
+        </tr>
+        
+       <tr>
+          <td><%=bundle.getString("colorLabel")%></td>
+          <td><select name="color" title="<%=bundle.getString("colorLabel")%>"><jsp:include page="/WEB-INF/pages/components/colorSelectOptions.jsp"/></select></td>
         </tr>
 
       </table>

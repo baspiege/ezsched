@@ -47,8 +47,10 @@
 
     // Default
     String desc="";
-    
-    ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));           
+    String color="000000";
+
+    ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));
+    ResourceBundle colorBundle = ResourceBundle.getBundle("Color", SessionUtils.getLocale(request));
 
     // Process based on action
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
@@ -58,6 +60,9 @@
         {
             // Description
             desc=RequestUtils.getAlphaInput(request,"desc",bundle.getString("nameLabel"),true);
+            
+            // Color
+            color=RequestUtils.getColorInput(request,"color",bundle.getString("colorLabel"),true);
 
             // Time
             Long startHour=RequestUtils.getNumericInput(request,"startHour",bundle.getString("startHourLabel"),false,0,13);
@@ -114,6 +119,11 @@ if (isCurrentUserAdmin)
           <td><%=bundle.getString("defaultDurationLabel")%></td>
           <td><% request.setAttribute("shiftDatePrefix","duration"); %><jsp:include page="/WEB-INF/pages/components/durationSelect.jsp"/></td>
         </tr>
+        
+        <tr>
+          <td><%=bundle.getString("colorLabel")%></td>
+          <td><select name="color" title="<%=bundle.getString("colorLabel")%>"><jsp:include page="/WEB-INF/pages/components/colorSelectOptions.jsp"/></select></td>
+        </tr>
 
       </table>
       <br/>
@@ -133,14 +143,15 @@ if (isCurrentUserAdmin)
     if (shiftTemplates!=null && !shiftTemplates.isEmpty())
     {
         out.write("<table border=\"1\" style=\"text-align:left;\"><tr>");
-        out.write("<th>" + bundle.getString("nameLabel") + "</th>");                
-        out.write("<th>" + bundle.getString("defaultStartTimeLabel") + "</th>");        
-        out.write("<th>" + bundle.getString("defaultDurationLabel") + "</th>");                
+        out.write("<th>" + bundle.getString("nameLabel") + "</th>");
+        out.write("<th>" + bundle.getString("defaultStartTimeLabel") + "</th>");
+        out.write("<th>" + bundle.getString("defaultDurationLabel") + "</th>");
+        out.write("<th>" + bundle.getString("colorLabel") + "</th>");
 
         // If non-admins, can do actions, update the logic below.
         if (isCurrentUserAdmin)
         {
-            out.write("<th>" + bundle.getString("actionLabel") + "</th>");                
+            out.write("<th>" + bundle.getString("actionLabel") + "</th>");
         }
         out.write("</tr>");
 
@@ -150,22 +161,48 @@ if (isCurrentUserAdmin)
             Entry entry = (Entry)iter.next();
             ShiftTemplate shiftTemplate=(ShiftTemplate)entry.getValue();
 
-            out.write("<tr>");            
-            
+            out.write("<tr>");
+
             // Display desc
-            out.write("<td>");            
+            out.write("<td>");
             out.write( HtmlUtils.escapeChars(shiftTemplate.getDesc()) );
-            out.write("</td>");                        
+            out.write("</td>");
 
             // Start Time
             out.write("<td>");
             out.write( HtmlUtils.escapeChars( DisplayUtils.formatTime(shiftTemplate.getStartTime())) );
-            out.write("</td>");            
-            
+            out.write("</td>");
+
             // Duration
             out.write("<td>");
             out.write(HtmlUtils.escapeChars(DisplayUtils.formatDuration(shiftTemplate.getDuration())) );
-            out.write("</td>");            
+            out.write("</td>");
+            
+            // Color
+            out.write("<td>");
+            if (shiftTemplate.getColor()!=null)
+            {
+                out.write("<div style=\"border-style:solid;border-width:medium;border-color:#");
+                out.write(HtmlUtils.escapeChars(shiftTemplate.getColor()));
+                out.write("\">");
+                
+                if (colorBundle.containsKey(shiftTemplate.getColor()))
+                {
+                    out.write(colorBundle.getString(shiftTemplate.getColor()));                    
+                }
+                else
+                {
+                    out.write("&nbsp;");
+                }
+                
+                out.write("<div>");
+            }
+            else
+            {
+                out.write("&nbsp;");
+            }
+
+            out.write("</td>");
 
             long shiftTemplateId=shiftTemplate.getKey().getId();
 

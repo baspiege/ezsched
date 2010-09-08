@@ -1,24 +1,11 @@
 NEXT
-   
+    
 - CSRF (add token to each form)
-- hide view options with button on sched page?
-
-- color for roles/shifts
-    add to model, to add, update role pages
-    on schedule, add color
-    when displaying shifts
-    
-- add colored border to shifts ?
-.drag {background-color:#ffffff; padding:0; margin:1px 0; border:5px solid #0000ff; position:relative; cursor:move;}
-
-<%-- // Good colors: yellow FFFF99, light green CCFF99 or CCFFCC, light orange ffcc99, light blue CCFFFF, purple? CCCCFF  --%>
-<%-- // or use primary, with text changing... ff0000, 00ff00, 0000ff, ff00ff, ffff00, 00ffff  --%>
-    
+        
 HIGH
 -
 
 Next Version
-- color for shifts or roles
 - store image upload
 - reports of hours scheduled to work
 
@@ -51,6 +38,9 @@ LOW
     - xmlhttprequest?  or move into cell.  but then have to sort...
     - if not xmlhttprequest, scroll back to position if no edits?
 - if selected spanish, pass through login and logoff.
+- hide view options with button on sched page?
+- forward to login page form method (get servelt config)
+- for colors that are dark, when selecting, show label in white
     
 To check at end:
 - only get from request parameter from requestutils methods.

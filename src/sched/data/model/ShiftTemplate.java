@@ -42,6 +42,9 @@ public class ShiftTemplate implements Serializable {
 
     @Persistent
     private int duration;
+    
+    @Persistent
+    private String color;
 
     /**
      * Constructor.
@@ -61,6 +64,11 @@ public class ShiftTemplate implements Serializable {
     }
 
     // Accessors for the fields.  JDO doesn't use these, but the application does.
+    
+    public String getColor()
+    {
+        return color;
+    }
 
     public String getDesc()
     {
@@ -85,6 +93,11 @@ public class ShiftTemplate implements Serializable {
     public long getStoreId()
     {
         return storeId;
+    }
+    
+    public void setColor(String aColor)
+    {
+        color=aColor;
     }
 
     public void setDesc(String aDesc)

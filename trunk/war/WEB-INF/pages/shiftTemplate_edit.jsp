@@ -11,7 +11,7 @@
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
 <%
-    ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));           
+    ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));
     ResourceBundle colorBundle = ResourceBundle.getBundle("Color", SessionUtils.getLocale(request));
 
     // If cancel, forward right away.
@@ -24,7 +24,7 @@
         request.setAttribute("startAmPm",null);
         request.setAttribute("durationHour",null);					
         request.setAttribute("durationMinute",null);	
-    
+
         RequestUtils.resetAction(request);
         RequestUtils.removeEdits(request);
         %>
@@ -46,7 +46,7 @@
         <jsp:forward page="/logonForward.jsp"/>
         <%
     }
-    
+
     // Check if admin
     User currentUser=RequestUtils.getCurrentUser(request);
     boolean isCurrentUserAdmin=false;
@@ -103,19 +103,19 @@
         desc=shiftTemplate.getDesc();
         color=shiftTemplate.getColor();
         request.setAttribute("color",color);
-            
+
         // Get time and calculate start hour and minute.
         int shiftTemplateStartTime=shiftTemplate.getStartTime();		
 
         long startHourLong=0;
         long startMinuteLong=0;		
-                
+
         if (shiftTemplateStartTime!=0)
         {
             startHourLong=shiftTemplateStartTime/60;
             startMinuteLong=shiftTemplateStartTime%60;
         }
-        
+
         // AM/PM
         if (shiftTemplateStartTime>=12*60)
         {
@@ -125,7 +125,7 @@
         {
             request.setAttribute("startAmPm",DateUtils.AM);
         }		
-        
+
         // Convert 24 hour to 12 hour.
         if (startHourLong==0)
         {
@@ -135,25 +135,25 @@
         {
             startHourLong=startHourLong-12;
         }
-        
+
         request.setAttribute("startHour",new Long(startHourLong));
         request.setAttribute("startMinute",new Long(startMinuteLong));		
-        
+
         // Get duration and calculate hour and min.
         int shiftTemplateDuration=shiftTemplate.getDuration();
-        
+
         long durationHourLong=0;
         long durationMinuteLong=0;		
-                
+
         if (shiftTemplateDuration!=0)
         {
             durationHourLong=shiftTemplateDuration/60;
             durationMinuteLong=shiftTemplateDuration%60;
         }
-        
+
         request.setAttribute("durationHour",new Long(durationHourLong));
         request.setAttribute("durationMinute",new Long(durationMinuteLong));				
-    
+
         // Process based on action
         if (action!=null && action.length()!=0 && !RequestUtils.isForwarded(request))
         {
@@ -164,11 +164,11 @@
                 desc=RequestUtils.getAlphaInput(request,"desc",bundle.getString("nameLabel"),true);				
                 startHour=RequestUtils.getNumericInput(request,"startHour",bundle.getString("startHourLabel"),true,0,13);
                 startMinute=RequestUtils.getNumericInput(request,"startMinute",bundle.getString("startMinuteLabel"),true,-1,60);
-                startAmPm=RequestUtils.getAmPmInput(request,"startAmPm",bundle.getString("startAmPmLabel"),true);                
-                
+                startAmPm=RequestUtils.getAmPmInput(request,"startAmPm",bundle.getString("startAmPmLabel"),true);
+
                 durationHour=RequestUtils.getNumericInput(request,"durationHour",bundle.getString("durationHoursLabel"),true);
                 durationMinute=RequestUtils.getNumericInput(request,"durationMinute",bundle.getString("durationMinutesLabel"),true);		
-                    
+
                 if (!RequestUtils.hasEdits(request))
                 {
                     new ShiftTemplateAddUpdate().execute(request);
@@ -183,7 +183,8 @@
                     request.setAttribute("startAmPm",null);
                     request.setAttribute("durationHour",null);					
                     request.setAttribute("durationMinute",null);					
-                
+                    request.setAttribute("color",null);
+
                     RequestUtils.resetAction(request);
 
                     // Route to shiftTemplate page.
@@ -223,7 +224,7 @@
           <td><%=bundle.getString("defaultDurationLabel")%></td>
           <td><% request.setAttribute("shiftDatePrefix","duration"); %><jsp:include page="/WEB-INF/pages/components/durationSelect.jsp"/></td>
         </tr>
-        
+
        <tr>
           <td><%=bundle.getString("colorLabel")%></td>
           <td><select name="color" title="<%=bundle.getString("colorLabel")%>"><jsp:include page="/WEB-INF/pages/components/colorSelectOptions.jsp"/></select></td>

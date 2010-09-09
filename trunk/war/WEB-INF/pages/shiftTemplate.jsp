@@ -82,6 +82,7 @@
             if (!RequestUtils.hasEdits(request))
             {
                 desc="";
+                request.setAttribute("color",null);
             }
         }
     }
@@ -182,7 +183,7 @@ if (isCurrentUserAdmin)
             out.write("<td>");
             if (shiftTemplate.getColor()!=null)
             {
-                out.write("<div style=\"border-style:solid;border-width:medium;border-color:#");
+                out.write("<div style=\"border-style:solid;border-width:2px;border-color:#");
                 out.write(HtmlUtils.escapeChars(shiftTemplate.getColor()));
                 out.write("\">");
                 

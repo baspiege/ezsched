@@ -122,7 +122,7 @@ public class DisplayUtils
         {
             timeDisplay.append("12");
         }
-        else if (hours>13)
+        else if (hours>12)
         {
             timeDisplay.append(hours-12);
         }

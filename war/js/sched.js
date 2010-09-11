@@ -154,17 +154,13 @@ function OnMouseUp(e)
                         {
                             var shiftId=inputs[0].value;
 
-                            // Create form and submit it.
-                            var moveForm = document.createElement("form");
-                            document.body.appendChild(moveForm);
-                            moveForm.method = "post";
-                            moveForm.action= "sched.jsp?action=Move";
+                            // Get form and submit it.
+                            var moveForm = document.getElementById("moveForm");
                             createInput(moveForm, "dateMove", dateShift);
                             createInput(moveForm, "userIdMove", userId);
                             createInput(moveForm, "shiftId", shiftId);
-                            saveSchedPos();
                             moveForm.submit();
-
+                            
                             moving=true;
                         }
                     }

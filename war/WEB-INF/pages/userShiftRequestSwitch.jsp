@@ -24,6 +24,7 @@
 <%@ page import="sched.utils.DisplayUtils" %>
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
+<%@ page import="sched.utils.StringUtils" %>
 <%
     // Set the current store into the request.
     SessionUtils.setCurrentStoreIntoRequest(request);
@@ -77,8 +78,16 @@
 
     // Process based on action
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
-    if (action!=null && !RequestUtils.isForwarded(request))
+    if (!StringUtils.isEmpty(action) && !RequestUtils.isForwarded(request))
     {    
+        Long token=RequestUtils.getNumericInput(request,"csrfToken","CSRF Token",true);
+        if (!SessionUtils.isCSRFTokenValid(request,token))
+        {
+            %>
+            <jsp:forward page="/logonForward.jsp"/>
+            <%
+        }
+    
         Map<Long,UserShift> shifts=new LinkedHashMap<Long,UserShift>();    
     
         if (action.equals(bundle.getString("startNewRequestLabel")))
@@ -231,6 +240,7 @@
       
       <br/>
 
+      <input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
       <input type="submit" name="action" value="<%=bundle.getString("startNewRequestLabel")%>"></input>
       
     <%        
@@ -367,10 +377,11 @@ else
                     //out.write("<form method=\"post\" action=\"userShiftRequestSwitch.jsp\"><input type=\"submit\" name=\"action\" value=\"Add Shift\"></input></form>");                                  
 
                     // Button
-                    out.write("<form method=\"get\" action=\"userShiftRequestSwitch.jsp?action=AddToExisting\" autocomplete=\"off\">");
+                    out.write("<form method=\"post\" action=\"userShiftRequestSwitch.jsp\" autocomplete=\"off\">");
                     out.write("<input type=\"hidden\" name=\"userShiftRequestSwitchId\" value=\"" + userShiftRequestSwitchId + "\"></input>");
                     out.write("<input type=\"hidden\" name=\"s\" value=\"" + userShiftId + "\"></input>");
                     out.write("<input type=\"submit\" name=\"action\" value=\"" + bundle.getString("addShiftToTradeLabel") + "\"></input>");
+                    out.write("<input type=\"hidden\" name=\"csrfToken\" value=\"" + SessionUtils.getCSRFToken(request) + "\"></input>");
                     out.write("</form>");      
                 
                     // Link
@@ -407,10 +418,11 @@ else
                     //out.write("<form method=\"post\" action=\"userShiftRequestSwitch.jsp\"><input type=\"submit\" name=\"action\" value=\"Add Shift\"></input></form>");                                    
                 
                     // Button
-                    out.write("<form method=\"get\" action=\"userShiftRequestSwitch.jsp?action=AddToExisting\" autocomplete=\"off\">");
+                    out.write("<form method=\"post\" action=\"userShiftRequestSwitch.jsp\" autocomplete=\"off\">");
                     out.write("<input type=\"hidden\" name=\"userShiftRequestSwitchId\" value=\"" + userShiftRequestSwitchId + "\"></input>");
                     out.write("<input type=\"hidden\" name=\"s\" value=\"" + userShiftId + "\"></input>");
                     out.write("<input type=\"submit\" name=\"action\" value=\"" + bundle.getString("addShiftToTradeLabel") + "\"></input>");
+                    out.write("<input type=\"hidden\" name=\"csrfToken\" value=\"" + SessionUtils.getCSRFToken(request) + "\"></input>");
                     out.write("</form>");      
                 
                     // Link
@@ -440,6 +452,7 @@ else
             if (isCurrentUserAdmin)
             {
                 out.write("<a href=\"userShiftRequestSwitch.jsp?action=Process&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                 out.write("\">" + bundle.getString("processLabel") + "</a>");
             
                 //out.write(" <a href=\"userShiftRequestSwitch.jsp?action=Deny&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
@@ -449,6 +462,7 @@ else
                 //out.write("\">Edit</a>");
             
                 out.write(" | <a href=\"userShiftRequestSwitch.jsp?action=Delete&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                 out.write("\">" + bundle.getString("deleteLabel") + "</a>");
                 
                 prev=true;
@@ -464,15 +478,18 @@ else
                 if (userShiftRequestSwitch.getUserStatus1()!=UserShiftRequestSwitch.APPROVED)
                 {
                     out.write("<a href=\"userShiftRequestSwitch.jsp?action=User1Approves&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                    out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                     out.write("\">" + bundle.getString("user1ApprovesLabel") + "</a>");            
                 }
                 else
                 {
                     out.write("<a href=\"userShiftRequestSwitch.jsp?action=User1NotApproves&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                    out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                     out.write("\">" + bundle.getString("removeUser1ApprovalLabel") + "</a>");            
                 }
                 
                 out.write(" | <a href=\"userShiftRequestSwitch.jsp?action=RemoveUserShift1&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                 out.write("\">" + bundle.getString("removeShift1Label") + "</a>");          
 
                 prev=true;                
@@ -488,15 +505,18 @@ else
                 if (userShiftRequestSwitch.getUserStatus2()!=UserShiftRequestSwitch.APPROVED)
                 {
                     out.write("<a href=\"userShiftRequestSwitch.jsp?action=User2Approves&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                    out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                     out.write("\">" + bundle.getString("user2ApprovesLabel") + "</a>");                       
                 }
                 else
                 {
                     out.write("<a href=\"userShiftRequestSwitch.jsp?action=User2NotApproves&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                    out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                     out.write("\">" + bundle.getString("removeUser2ApprovalLabel") + "</a>");                                   
                 }
                 
                 out.write(" | <a href=\"userShiftRequestSwitch.jsp?action=RemoveUserShift2&userShiftRequestSwitchId=" + userShiftRequestSwitchId);
+                out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
                 out.write("\">" + bundle.getString("removeShift2Label") + "</a>");
             }
             

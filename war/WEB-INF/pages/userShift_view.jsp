@@ -217,6 +217,7 @@
         {
             out.write("<form id=\"trade\" method=\"get\" action=\"userShiftRequestSwitch.jsp\" autocomplete=\"off\">");
             out.write("<input type=\"hidden\" name=\"s\" value=\"" + userShiftId.toString() + "\"></input>");
+            out.write("<input type=\"hidden\" name=\"csrfToken\" value=\"" + SessionUtils.getCSRFToken(request) + "\"></input>");
             out.write("<input type=\"submit\" name=\"action\" value=\"" + bundle.getString("tradeLabel") + "\"></input>");
             out.write("</form>");      
         }

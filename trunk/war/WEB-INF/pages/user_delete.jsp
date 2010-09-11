@@ -17,6 +17,7 @@
 <%@ page import="sched.utils.HtmlUtils" %>
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
+<%@ page import="sched.utils.StringUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));   
     
@@ -113,8 +114,16 @@
     }
 
     // Forward based on action
-    if (action!=null && action.length()!=0 && !RequestUtils.isForwarded(request))
+    if (!StringUtils.isEmpty(action) && !RequestUtils.isForwarded(request))
     {
+        Long token=RequestUtils.getNumericInput(request,"csrfToken","CSRF Token",true);
+        if (!SessionUtils.isCSRFTokenValid(request,token))
+        {
+            %>
+            <jsp:forward page="/logonForward.jsp"/>
+            <%
+        }
+    
         if (action.equals(bundle.getString("deleteLabel")))
         {
             new UserDelete().execute(request);
@@ -152,7 +161,7 @@
     <input type="submit" name="action" value="<%= bundle.getString("deleteLabel")%>"/>
     <input type="submit" name="action" value="<%= bundle.getString("cancelLabel")%>"/>
     <input type="hidden" name="userId" value="<%=userIdRequest%>"/>
-
+    <input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
     </fieldset>
 </form>
 

@@ -1,6 +1,7 @@
 package sched.utils;
 
 import java.util.Locale;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,7 @@ public class SessionUtils
     public static String CURRENT_STORE_ID="currentStoreId";
     public static String LOGGED_ON="loggedOn";
     public static String LOCALE="locale";
+    public static String CSRF_TOKEN="csrfToken";
 
     // This is user Id being displayed on the schedule page, not the user logged in.
     public static String USER_ID_DISPLAYED_ON_SCHEDULE="userIdDisplayedOnSchedule";
@@ -28,6 +30,18 @@ public class SessionUtils
     // This is shift template Id being displayed on the schedule page.
     public static String SHIFT_TEMPLATE_ID_DISPLAYED_ON_SCHEDULE="shiftTemplateIdDisplayedOnSchedule";
 
+    /**
+    * Get CSRF token.
+    *
+    * @param aRequest request
+    * @return a token
+    */
+    public static Long getCSRFToken(HttpServletRequest aRequest)
+    {
+        HttpSession session=aRequest.getSession();
+        return (Long)session.getAttribute(CSRF_TOKEN);
+    }
+    
     /**
     * Get a field from the session as a Long object.
     *
@@ -152,6 +166,28 @@ public class SessionUtils
         HttpSession session=aRequest.getSession();
         return (Long)session.getAttribute(USER_ID_DISPLAYED_ON_SCHEDULE);
     }
+    
+    /**
+    * Check CSRF.
+    *
+    * @param aRequest request
+    * @param aToken token from form
+    * @return a boolean indicating if request is valid
+    */
+    public static boolean isCSRFTokenValid(HttpServletRequest aRequest, Long aFormToken)
+    {
+        Long csrfToken=(Long)aRequest.getSession().getAttribute(CSRF_TOKEN);
+
+        if (csrfToken==null || aFormToken==null || !csrfToken.equals(aFormToken))
+        {            
+            RequestUtils.resetAction(aRequest);
+            RequestUtils.removeEdits(aRequest);
+            
+            return false;
+        }
+
+        return true;
+    }
 
     /**
     * Check if logged on.
@@ -169,6 +205,18 @@ public class SessionUtils
         }
 
         return true;
+    }
+    
+    /**
+    * Set CSRF token.
+    *
+    * @param aRequest Servlet Request
+    */
+    public static void setCSRFToken(HttpServletRequest aRequest)
+    {
+        Random generator = new Random();
+    
+        aRequest.getSession().setAttribute(CSRF_TOKEN,generator.nextLong());
     }
 
     /**

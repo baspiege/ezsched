@@ -24,6 +24,7 @@
 <%@ page import="sched.utils.HtmlUtils" %>
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
+<%@ page import="sched.utils.StringUtils" %>
 <%
     // TODO Remove...
     // If cancel, forward right away.
@@ -325,8 +326,16 @@
     }
 
     // Process based on action
-    if (action!=null && action.length()!=0 && !RequestUtils.isForwarded(request))
+    if (!StringUtils.isEmpty(action) && !RequestUtils.isForwarded(request))
     {   
+        Long token=RequestUtils.getNumericInput(request,"csrfToken","CSRF Token",true);
+        if (!SessionUtils.isCSRFTokenValid(request,token))
+        {
+            %>
+            <jsp:forward page="/logonForward.jsp"/>
+            <%
+        }
+    
         if ((type==ADD && action.equals(bundle.getString("addLabel"))) || (type==EDIT && action.equals(bundle.getString("updateLabel"))))
         {		
             if (currentUser.getIsAdmin() && userIdRequest==null)
@@ -669,7 +678,7 @@ else
         out.write(" <a href=\"userShiftRequestSwitch.jsp?s=" + userShiftId.toString() + "\">" + bundle.getString("tradeLabel") + "</a>");
     }
 %>
-
+      <input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
     </fieldset>
   </form>
 

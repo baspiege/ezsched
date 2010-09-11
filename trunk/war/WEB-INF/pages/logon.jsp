@@ -34,6 +34,7 @@
     if (isSignedIn)
     {
         session.setAttribute("loggedOn",new Boolean(true));
+        SessionUtils.setCSRFToken(request);
 
         // Get all stores available for this user
         new StoreGetAll().execute(request);

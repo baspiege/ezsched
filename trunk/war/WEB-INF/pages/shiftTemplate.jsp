@@ -12,6 +12,7 @@
 <%@ page import="sched.utils.HtmlUtils" %>
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
+<%@ page import="sched.utils.StringUtils" %>
 <%
     // Set the current store into the request.
     SessionUtils.setCurrentStoreIntoRequest(request);
@@ -54,8 +55,16 @@
 
     // Process based on action
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);
-    if (action!=null && !RequestUtils.isForwarded(request))
+    if (!StringUtils.isEmpty(action) && !RequestUtils.isForwarded(request))
     {
+        Long token=RequestUtils.getNumericInput(request,"csrfToken","CSRF Token",true);
+        if (!SessionUtils.isCSRFTokenValid(request,token))
+        {
+            %>
+            <jsp:forward page="/logonForward.jsp"/>
+            <%
+        }
+    
         if (isCurrentUserAdmin && action.equals(bundle.getString("addLabel")))
         {
             // Description
@@ -129,6 +138,7 @@ if (isCurrentUserAdmin)
       </table>
       <br/>
 
+      <input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
       <input type="submit" name="action" value="<%=bundle.getString("addLabel")%>"></input>
     </fieldset>
   </form>

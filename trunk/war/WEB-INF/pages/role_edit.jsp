@@ -9,6 +9,7 @@
 <%@ page import="sched.utils.HtmlUtils" %>
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
+<%@ page import="sched.utils.StringUtils" %>
 <%
     ResourceBundle bundle = ResourceBundle.getBundle("Text", SessionUtils.getLocale(request));                    
     
@@ -90,8 +91,16 @@
         allUserUpdateAccess=role.getAllUserUpdateAccess();	
 
         // Process based on action
-        if (action!=null && action.length()!=0 && !RequestUtils.isForwarded(request))
+        if (!StringUtils.isEmpty(action) && !RequestUtils.isForwarded(request))
         {
+            Long token=RequestUtils.getNumericInput(request,"csrfToken","CSRF Token",true);
+            if (!SessionUtils.isCSRFTokenValid(request,token))
+            {
+                %>
+                <jsp:forward page="/logonForward.jsp"/>
+                <%
+            }
+        
             if (action.equals(bundle.getString("updateLabel")))
             {
                 // Required
@@ -148,6 +157,7 @@
 
       <p><sup><small>*</small></sup><%= bundle.getString("allUserUpdateAccessFootnote") %></p> 
 
+      <input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
       <input type="submit" name="action" value="<%= bundle.getString("updateLabel") %>"></input> <input type="submit" name="action" value="<%= bundle.getString("cancelLabel") %>"/>
     </fieldset>
   </form>

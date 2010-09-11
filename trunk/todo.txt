@@ -1,6 +1,6 @@
 NEXT
     
-- CSRF (add token to each form)
+- allow shift template to start at 12:00.  currently, only starts at 12:01am...
         
 HIGH
 -
@@ -39,7 +39,6 @@ LOW
     - if not xmlhttprequest, scroll back to position if no edits?
 - if selected spanish, pass through login and logoff.
 - hide view options with button on sched page?
-- forward to login page form method (get servelt config)
 - for colors that are dark, when selecting, show label in white
     
 To check at end:

@@ -25,6 +25,7 @@
 <%@ page import="sched.utils.HtmlUtils" %>
 <%@ page import="sched.utils.RequestUtils" %>
 <%@ page import="sched.utils.SessionUtils" %>
+<%@ page import="sched.utils.StringUtils" %>
 <%
     // Set the current store into the request.
     SessionUtils.setCurrentStoreIntoRequest(request);
@@ -104,11 +105,19 @@
     Map<Long,ShiftTemplate> shiftTemplates=RequestUtils.getShiftTemplates(request);
     
     String action=RequestUtils.getAlphaInput(request,"action","Action",false);   
-    if (action!=null && action.length()!=0)
+    if (!StringUtils.isEmpty(action) && !RequestUtils.isForwarded(request))
     {
+        Long token=RequestUtils.getNumericInput(request,"csrfToken","CSRF Token",true);
+        if (!SessionUtils.isCSRFTokenValid(request,token))
+        {
+            %>
+            <jsp:forward page="/logonForward.jsp"/>
+            <%
+        }
+        
         // Delete shifts
         if (action.equals(bundle.getString("deleteLabel")) && !RequestUtils.isForwarded(request))
-        {
+        {        
             List<Long> userShiftIds=RequestUtils.getNumericInputs(request,"s",bundle.getString("shiftIdLabel"),false);
             
             if (!RequestUtils.hasEdits(request))
@@ -295,6 +304,7 @@
       <input type="submit" name="action" value="<%= bundle.getString("viewButton")%>"></input>
       <input type="submit" name="action" value="<%= bundle.getString("viewPreviousPeriodButton")%>"></input>
       <input type="submit" name="action" value="<%= bundle.getString("viewNextPeriodButton")%>"></input>
+      <input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
     </fieldset>
   </form>    
   <form name="sched" method="post" action="sched.jsp" onsubmit="saveSchedPos();">  
@@ -726,6 +736,11 @@
     out.write("</table>");
 //}
 %>
+<input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
+</form>
+<form name="moveForm" id="moveForm" method="post" action="sched.jsp" onsubmit="saveSchedPos();">
+<input type="hidden" name="action" value="Move"/>
+<input type="hidden" name="csrfToken" value="<%= SessionUtils.getCSRFToken(request) %>"/>
 </form>
 <jsp:include page="/WEB-INF/pages/components/footer.jsp"/>
 <%-- <pre id="debug"></pre> --%>

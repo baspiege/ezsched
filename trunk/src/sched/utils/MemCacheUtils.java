@@ -23,7 +23,7 @@ public class MemCacheUtils
     public static String SHIFT_TEMPLATES="shiftTemplates";
     public static String STORE="store";
     public static String USERS="users";
-    public static String USER_SHIFT_REQUEST_SWITCH="userShiftRequestSwitchs";
+    //public static String USER_SHIFT_REQUEST_SWITCH="userShiftRequestSwitchs";
 
     /**
     * Get the current store Id as String.

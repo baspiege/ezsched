@@ -36,7 +36,7 @@ public class RequestUtils
     public static String ROLES="roles";
     public static String SHIFT_TEMPLATES="shiftTemplates";
     public static String USERS="users";
-    public static String USER_SHIFT_REQUEST_SWITCH="userShiftRequestSwitchs";
+    //public static String USER_SHIFT_REQUEST_SWITCH="userShiftRequestSwitchs";
 
     // These are thread-safe.
     private static Pattern mAlphaPattern=Pattern.compile("[a-zA-Z_0-9\\.\\&\\'\\-\\@\\!\\#\\$\\%\\*\\+\\/\\=\\?\\^\\(\\)\\{\\}\\|\\`\\\\,\\\" \\u00c0-\\u00ff]*");

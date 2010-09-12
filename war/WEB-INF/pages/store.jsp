@@ -244,7 +244,10 @@
             
             // Actions
             out.write("<td>");            
-            out.write("<a href=\"store.jsp?action=" + bundle.getString("selectLabel") + "&storeId=" + storeId + "\">" + bundle.getString("selectLabel") + "</a>");
+            out.write("<a href=\"store.jsp?action=" + bundle.getString("selectLabel"));
+            out.write("&storeId=" + storeId);
+            out.write("&csrfToken=" + SessionUtils.getCSRFToken(request));
+            out.write("\">" + bundle.getString("selectLabel") + "</a>");
             
             // Admin only actions
             if (isAdmin)

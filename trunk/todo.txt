@@ -1,6 +1,7 @@
 NEXT
     
 - allow shift template to start at 12:00.  currently, only starts at 12:01am...
+- when moving shifts, if shift in same cell, don't move.
         
 HIGH
 -
@@ -36,7 +37,6 @@ LOW
 - drag and drop - security tests on server.
     - indicator when posting.  spinning cursor?
     - xmlhttprequest?  or move into cell.  but then have to sort...
-    - if not xmlhttprequest, scroll back to position if no edits?
 - if selected spanish, pass through login and logoff.
 - hide view options with button on sched page?
 - for colors that are dark, when selecting, show label in white
